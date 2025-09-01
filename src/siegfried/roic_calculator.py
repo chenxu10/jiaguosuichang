@@ -10,3 +10,7 @@ def calculate_roic(ticker: str) -> dict:
     except Exception as e:
         roic = 9999
         return {'tikcer':ticker,'roic':roic,'e':e}
+    
+
+if __name__ == "__main__":
+    calculate_roic("UNH")
