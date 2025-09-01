@@ -1,2 +1,6 @@
 def calculate_roic(ticker: str) -> dict:
-    return {}
+    try:
+        a = 2
+    except Exception as e:
+        roic = 9999
+        return {'tikcer':ticker,'roic':roic,'e':e}
