@@ -7,5 +7,6 @@ def test_calculate_roic():
 
 
 def test_yf_exception():
+    ticker = "UNH"
     with pytest.raises(Exception):
-        rc.calculate_roic()
+        rc.calculate_roic(ticker)
