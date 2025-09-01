@@ -5,7 +5,6 @@ def calculate_roic(ticker: str) -> dict:
         stock = yf.Ticker(ticker)
         income_stmt = stock.financials
         balance_sheet = stock.balance_sheet
-        print(income_stmt)
         print(balance_sheet)
         if income_stmt.empty or balance_sheet.empty:
             return {"ticker": ticker, "roic": None, "error": "No financial data available"}
