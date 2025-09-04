@@ -4,7 +4,7 @@ def calculate_roic(ticker: str) -> dict:
     try:
         stock = yf.Ticker(ticker)
         balance_sheet = stock.balance_sheet
-        return balance_sheet
+        return {}
         #balance_sheet.to_csv("unh_balansheet.csv")
         #print(balance_sheet)
         #if balance_sheet.empty:
