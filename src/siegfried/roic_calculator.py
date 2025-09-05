@@ -222,14 +222,8 @@ def plot_roic_time_series(ticker: str, years: int = 4, save_plot: bool = False) 
     create_statistical_subplot(years_clean, roic_clean)
     mean_roic, std_roic = add_statistical_lines(roic_clean)
     
-    plt.tight_layout()
-    
-    if save_plot:
-        plt.savefig(f'{ticker}_roic_analysis.png', dpi=300, bbox_inches='tight')
-        print(f"Plot saved as {ticker}_roic_analysis.png")
-    
-    plt.show()
-    
+    plt.savefig(f'{ticker}_roic_analysis.png', dpi=300, bbox_inches='tight')
+    print(f"Plot saved as {ticker}_roic_analysis.png")
     print_summary_statistics(ticker, roic_clean, mean_roic, std_roic)
 
 if __name__ == "__main__":
