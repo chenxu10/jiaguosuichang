@@ -3,6 +3,7 @@
 import pandas as pd
 import requests
 from unittest.mock import patch, Mock
+from src.siegfried import find_hidden_cheap_goods_in_rubbish as fhc
 
 def get_top_k_companies(k=100):
     headers = {
@@ -25,6 +26,6 @@ def test_download_top_ticker(mock_read_html, mock_requests_get):
         'Symbol': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA'] * 20
     })
     mock_read_html.return_value = [mock_df]
-    tickers = get_top_k_companies(100)
+    tickers = fhc.get_top_k_companies(100)
     assert 0 < len(tickers) <= 100
     assert isinstance(tickers, list)

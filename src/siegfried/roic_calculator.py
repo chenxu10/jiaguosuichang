@@ -2,8 +2,12 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import logging
 from typing import Tuple, Dict, Any, List
 from datetime import datetime
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def get_financial_statements(ticker: str) -> Tuple[Any, Any]:
     stock = yf.Ticker(ticker)
@@ -151,15 +155,15 @@ def add_statistical_lines(roic_clean: List[float]) -> Tuple[float, float]:
     plt.legend()
     return mean_roic, std_roic
 
-def print_summary_statistics(ticker: str, roic_clean: List[float], mean_roic: float, std_roic: float) -> None:
-    """Print summary statistics for ROIC data"""
-    print(f"\n{ticker} ROIC Summary Statistics:")
-    print(f"Mean ROIC: {mean_roic:.2f}%")
-    print(f"Standard Deviation: {std_roic:.2f}%")
-    print(f"Volatility (CV): {(std_roic/abs(mean_roic)*100):.2f}%")
-    print(f"Min ROIC: {min(roic_clean):.2f}%")
-    print(f"Max ROIC: {max(roic_clean):.2f}%")
-    print(f"Range: {max(roic_clean) - min(roic_clean):.2f}%")
+def log_summary_statistics(ticker: str, roic_clean: List[float], mean_roic: float, std_roic: float) -> None:
+    """Log summary statistics for ROIC data"""
+    logger.info(f"\n{ticker} ROIC Summary Statistics:")
+    logger.info(f"Mean ROIC: {mean_roic:.2f}%")
+    logger.info(f"Standard Deviation: {std_roic:.2f}%")
+    logger.info(f"Volatility (CV): {(std_roic/abs(mean_roic)*100):.2f}%")
+    logger.info(f"Min ROIC: {min(roic_clean):.2f}%")
+    logger.info(f"Max ROIC: {max(roic_clean):.2f}%")
+    logger.info(f"Range: {max(roic_clean) - min(roic_clean):.2f}%")
 
 def calculate_roic_multi_year(ticker: str, years: int = 4) -> Dict[str, Any]:
     """Calculate ROIC for multiple years"""
@@ -211,7 +215,7 @@ def plot_roic_time_series(ticker: str, years: int = 4, save_plot: bool = False) 
     
     if not years_clean:
         error_msg = result.get('error', 'No data available') if 'error' in result else 'No valid ROIC data found'
-        print(f"Error calculating ROIC for {ticker}: {error_msg}")
+        logger.error(f"Error calculating ROIC for {ticker}: {error_msg}")
         return
     
     plt.figure(figsize=(12, 8))
@@ -223,16 +227,17 @@ def plot_roic_time_series(ticker: str, years: int = 4, save_plot: bool = False) 
     mean_roic, std_roic = add_statistical_lines(roic_clean)
     
     plt.savefig(f'{ticker}_roic_analysis.png', dpi=300, bbox_inches='tight')
-    print(f"Plot saved as {ticker}_roic_analysis.png")
-    print_summary_statistics(ticker, roic_clean, mean_roic, std_roic)
+    logger.info(f"Plot saved as {ticker}_roic_analysis.png")
+    log_summary_statistics(ticker, roic_clean, mean_roic, std_roic)
 
 if __name__ == "__main__":
-    print("Single year ROIC calculation:")
-    print(calculate_roic("UNH"))
-    print("\nMulti-year ROIC calculation:")
+    logger.info("Single year ROIC calculation:")
+    logger.info(calculate_roic("UNH"))
+    logger.info("Multi-year ROIC calculation:")
     result = calculate_roic_multi_year("UNH", 4)
-    for data in result['roic_data']:
-        roic_pct = data['roic'] * 100 if data['roic'] is not None else None
-        print(f"{data['year'].year}: {roic_pct:.2f}%" if roic_pct else f"{data['year'].year}: N/A")
-    print("\nGenerating ROIC visualization...")
-    plot_roic_time_series("UNH", 4)
+    logger.info(result)
+    # for data in result['roic_data']:
+    #     roic_pct = data['roic'] * 100 if data['roic'] is not None else None
+    #     print(f"{data['year'].year}: {roic_pct:.2f}%" if roic_pct else f"{data['year'].year}: N/A")
+    # print("\nGenerating ROIC visualization...")
+    # plot_roic_time_series("UNH", 4)
