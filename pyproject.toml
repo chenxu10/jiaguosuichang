@@ -1,0 +1,11 @@
+[project]
+name = "jiaguosuichang"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "matplotlib>=3.9.4",
+    "pytest-cov>=6.2.1",
+    "yfinance>=0.2.65",
+]
