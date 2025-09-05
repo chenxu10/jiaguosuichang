@@ -1,3 +1,14 @@
+"""
+This is an implementation of Mark Spitznagel's Dao of Capital Chapter 10 idea
+
+Idea is to find companies with high 10 year rolling average of return on invested capital
+and low p/b
+
+Author: xu.shen<xs286@cornell.edu>
+
+TODO: The BRKB's calculation is not correct and needs to modify
+"""
+
 import pandas as pd
 import requests
 import logging
