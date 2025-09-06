@@ -1,10 +1,8 @@
 import yfinance as yf
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import logging
 from typing import Tuple, Dict, Any, List
-from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -226,7 +224,7 @@ def plot_roic_time_series(ticker: str, years: int = 4, save_plot: bool = False) 
     create_statistical_subplot(years_clean, roic_clean)
     mean_roic, std_roic = add_statistical_lines(roic_clean)
     
-    plt.savefig(f'{ticker}_roic_analysis.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'src/report/{ticker}_roic_analysis.png', dpi=300, bbox_inches='tight')
     logger.info(f"Plot saved as {ticker}_roic_analysis.png")
     log_summary_statistics(ticker, roic_clean, mean_roic, std_roic)
 

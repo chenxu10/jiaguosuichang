@@ -1,5 +1,16 @@
 import yfinance as yf
 
+def calculate_manually_using_bookvalue(info, cr_prc):
+    book_value = info.get('bookValue')
+    if cr_prc and book_value and book_value > 0:
+        if book_value < cr_prc * 10:  
+            pb_ratio = cr_prc / book_value
+            return pb_ratio
+        else:
+            return None
+    else:
+        return None    
+
 def calculate_pb(symbol):
     """
     Calculate the price-to-book ratio for a given stock symbol.
@@ -20,9 +31,8 @@ def calculate_pb(symbol):
         if not current_price:
             return None
             
-        # First try using priceToBook field directly
         pb_ratio = info.get('priceToBook')
-        if pb_ratio and pb_ratio > 0.01:  # Filter out obviously wrong values like 0.001
+        if pb_ratio and pb_ratio > 0.01:
             return pb_ratio
         
         # Fallback: Calculate from balance sheet data
@@ -41,14 +51,7 @@ def calculate_pb(symbol):
         except Exception:
             pass  # Continue to next fallback
         
-        # Final fallback: manual calculation using bookValue field (if it seems reasonable)
-        book_value = info.get('bookValue')
-        if current_price and book_value and book_value > 0:
-            # Check if bookValue looks like a per-share value (reasonable range)
-            if book_value < current_price * 10:  # Heuristic: book value shouldn't be more than 10x price
-                pb_ratio = current_price / book_value
-                return pb_ratio
-        
+        pb_ratio = calculate_manually_using_bookvalue(info, current_price)
         return None
             
     except Exception as e:
