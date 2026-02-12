@@ -238,8 +238,8 @@ if __name__ == "__main__":
     
     # Output ROIC
     logger.info("Single year ROIC calculation:")
-    logger.info(calculate_roic("T"))
+    logger.info(calculate_roic("MOH"))
     logger.info("Multi-year ROIC calculation:")
     result = calculate_roic_multi_year("T", 4)
     logger.info(result)
-    plot_roic_time_series("T", 4)
+    plot_roic_time_series("MOH", 4)
